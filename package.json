@@ -1,0 +1,16 @@
+{
+  "name": "insta-clone",
+  "packageManager": "yarn@3.5.0",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js"
+  },
+  "devDependencies": {
+    "express": "^4.19.1",
+    "nodemon": "^3.1.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5"
+  }
+}
