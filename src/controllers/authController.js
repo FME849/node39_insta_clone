@@ -1,3 +1,4 @@
+import { createToken } from "../config/jwt.js";
 import responseApi from "../config/response.js";
 import prisma from "../models/prisma.js";
 import bcrypt from "bcrypt";
@@ -30,5 +31,30 @@ export const handleSignUp = async (req, res) => {
     } catch (err) {
         console.error(err);
         responseApi(res, 500, err, "Failed")
+    }
+};
+
+export const handleLogin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await prisma.nguoi_dung.findFirst({
+            where: {
+                email,
+            }
+        });
+
+        if (user) {
+            if (bcrypt.compareSync(password, user.mat_khau)) {
+                const token = createToken({ userId: user.nguoi_dung_id });
+
+                responseApi(res, 200, token, "Successfully login");
+            } else {
+                responseApi(res, 400, "", "Incorrect password");
+            }
+        } else {
+            responseApi(res, 400, "", "Invalid account");
+        }
+    } catch (err) {
+        responseApi(res, 500, err, "Failed");
     }
 }
