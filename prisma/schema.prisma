@@ -47,7 +47,7 @@ model luu_anh {
 model nguoi_dung {
   nguoi_dung_id Int         @id @default(autoincrement())
   email         String      @db.VarChar(100)
-  mat_khau      String      @db.VarChar(20)
+  mat_khau      String      @db.VarChar(255)
   ho_ten        String      @db.VarChar(100)
   tuoi          Int?
   anh_dai_dien  String?     @db.VarChar(255)
