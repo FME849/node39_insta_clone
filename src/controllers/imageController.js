@@ -28,3 +28,21 @@ export const handleGetImagesByName = async (req, res) => {
     }
 }
 
+export const handleGetImageDetail = async (req, res) => {
+    try {
+        const { imgId } = req.params;
+        const imgDetail = await prisma.hinh_anh.findUnique({
+            where: {
+                hinh_id: imgId,
+            },
+            include: {
+                binh_luan: true,
+                nguoi_dung: true,
+            }
+        })
+        
+        responseApi(res, 200, imgDetail, "Successful");
+    } catch(err) {
+        responseApi(res, 500, "", "Failed");
+    }
+}
