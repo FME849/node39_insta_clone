@@ -1,10 +1,13 @@
 import { Router } from "express";
-import { handleGetImageDetail, handleGetImages, handleGetImagesByName } from "../controllers/imageController.js";
+import { handleGetImageDetail, handleGetImages, handleSearchImagesByName, handleUploadImage } from "../controllers/imageController.js";
+import upload from "../config/multer.js";
+import { midVerifyToken } from "../config/jwt.js";
 
 const imageRouter = Router();
 
 imageRouter.get('/get-images', handleGetImages);
-imageRouter.get('/get-images-by-name', handleGetImagesByName);
+imageRouter.get('/search-images-by-name', handleSearchImagesByName);
 imageRouter.get('/get-image-detail', handleGetImageDetail);
+imageRouter.post('/upload-image', midVerifyToken, upload.single('image'), handleUploadImage)
 
 export default imageRouter;

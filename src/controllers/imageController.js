@@ -1,5 +1,8 @@
+import fs from "fs";
+import sharp from "sharp";
 import responseApi from "../config/response.js";
 import prisma from "../models/prisma.js";
+import { decodeToken } from "../config/jwt.js";
 
 export const handleGetImages = async (req, res) => {
     try {
@@ -11,9 +14,9 @@ export const handleGetImages = async (req, res) => {
     } 
 };
 
-export const handleGetImagesByName = async (req, res) => {
+export const handleSearchImagesByName = async (req, res) => {
     try {
-        const {imgName} = req.params;
+        const { imgName } = req.query;
         const listImgByName = await prisma.hinh_anh.findMany({
             where: {
                 ten_hinh: {
@@ -30,19 +33,53 @@ export const handleGetImagesByName = async (req, res) => {
 
 export const handleGetImageDetail = async (req, res) => {
     try {
-        const { imgId } = req.params;
+        const { imgId } = req.query;
         const imgDetail = await prisma.hinh_anh.findUnique({
             where: {
-                hinh_id: imgId,
+                hinh_id: parseInt(imgId),
             },
             include: {
                 binh_luan: true,
-                nguoi_dung: true,
+                nguoi_dung: {
+                    select: {
+                        nguoi_dung_id: true,
+                        email: true,
+                        tuoi: true,
+                        anh_dai_dien: true,
+                    }
+                },
             }
         })
         
         responseApi(res, 200, imgDetail, "Successful");
     } catch(err) {
         responseApi(res, 500, "", "Failed");
+    }
+}
+
+export const handleUploadImage = async (req, res) => {
+    try {
+        const { file, headers, body } = req;
+        const imgPath = process.cwd() + '/public/img/' + file.filename;
+        const imgBuffer = fs.readFileSync(imgPath);
+        const [originalName] = file.filename.split('.');
+
+        await sharp(imgBuffer).webp({quality: 70}).toFile(`${process.cwd()}/public/img/${originalName}.webp`);
+        fs.rmSync(imgPath);
+
+        const { userId } = decodeToken(headers.token);
+        const newImage = {
+            ten_hinh: originalName + '.webp',
+            duong_dan: originalName + '.webp',
+            mo_ta: body.description || '',
+            nguoi_dung_id: userId,
+        } 
+        const newRecord = await prisma.hinh_anh.create({
+            data: newImage,
+        });
+
+        responseApi(res, 200, newRecord, "Successful");
+    } catch(err) {
+        responseApi(res, 500, err, "Failed");
     }
 }
