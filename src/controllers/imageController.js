@@ -10,7 +10,7 @@ export const handleGetImages = async (req, res) => {
 
         responseApi(res, 200, allImages, "Successful");
     } catch (err) {
-        responseApi(res, 500, "", "Failed");
+        responseApi(res, 500, err, "Failed");
     } 
 };
 
@@ -27,7 +27,7 @@ export const handleSearchImagesByName = async (req, res) => {
 
         responseApi(res, 200, listImgByName, "Successful");
     } catch(err) {
-        responseApi(res, 500, "", "Failed");
+        responseApi(res, 500, err, "Failed");
     }
 }
 
@@ -39,7 +39,6 @@ export const handleGetImageDetail = async (req, res) => {
                 hinh_id: parseInt(imgId),
             },
             include: {
-                binh_luan: true,
                 nguoi_dung: {
                     select: {
                         nguoi_dung_id: true,
@@ -53,7 +52,23 @@ export const handleGetImageDetail = async (req, res) => {
         
         responseApi(res, 200, imgDetail, "Successful");
     } catch(err) {
-        responseApi(res, 500, "", "Failed");
+        responseApi(res, 500, err, "Failed");
+    }
+}
+
+export const handleGetCommentByImage = async (req, res) => {
+    try {
+        const { imgId } = req.query;
+    
+        const data = await prisma.binh_luan.findMany({
+            where: {
+                hinh_id: parseInt(imgId),
+            },
+        });
+
+        responseApi(res, 200, data, "Successful");
+    } catch(err) {
+        responseApi(res, 500, err, "Failed")
     }
 }
 
