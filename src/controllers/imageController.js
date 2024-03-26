@@ -98,3 +98,20 @@ export const handleUploadImage = async (req, res) => {
         responseApi(res, 500, err, "Failed");
     }
 }
+
+export const handleCheckSavedImage = async (req, res) => {
+    try {
+        const {imgId, userId} = req.query;
+    
+        const data = await prisma.luu_anh.findFirst({
+            where: {
+                hinh_id: parseInt(imgId),
+                nguoi_dung_id: parseInt(userId),
+            },
+        });
+
+        responseApi(res, 200, data, 'Successful');
+    } catch(err) {
+        responseApi(res, 500, err, 'Failed');
+    }
+}
