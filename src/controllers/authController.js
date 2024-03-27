@@ -1,7 +1,8 @@
-import { createToken } from "../config/jwt.js";
+import { createToken, decodeToken } from "../config/jwt.js";
 import responseApi from "../config/response.js";
 import prisma from "../models/prisma.js";
 import bcrypt from "bcrypt";
+import { exclude } from "../utils/helpers.js";
 
 export const handleSignUp = async (req, res) => {
     try {
@@ -55,6 +56,25 @@ export const handleLogin = async (req, res) => {
             responseApi(res, 400, "", "Invalid account");
         }
     } catch (err) {
+        responseApi(res, 500, err, "Failed");
+    }
+}
+
+export const handleGetUser = async (req, res) => {
+    try {
+        const { token } = req.headers;
+        const { userId } = decodeToken(token);
+
+        const data = await prisma.nguoi_dung.findUnique({
+            where: {
+                nguoi_dung_id: userId,
+            },
+        });
+        const userWithoutPassword = exclude(data, ['mat_khau'])
+
+        responseApi(res, 200, userWithoutPassword, "Successful");
+    } catch (err) {
+        console.log(err);
         responseApi(res, 500, err, "Failed");
     }
 }
