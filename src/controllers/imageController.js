@@ -101,7 +101,7 @@ export const handleUploadImage = async (req, res) => {
 
 export const handleCheckSavedImage = async (req, res) => {
     try {
-        const {imgId, userId} = req.query;
+        const { imgId, userId } = req.query;
     
         const data = await prisma.luu_anh.findFirst({
             where: {
@@ -113,5 +113,26 @@ export const handleCheckSavedImage = async (req, res) => {
         responseApi(res, 200, data, 'Successful');
     } catch(err) {
         responseApi(res, 500, err, 'Failed');
+    }
+}
+
+export const handleCommentOnImage = async (req, res) => {
+    try {
+        const { imgId, content } = req.body;
+        const { userId } = decodeToken(req.headers.token);
+
+        const newComment = {
+            hinh_id: parseInt(imgId),
+            nguoi_dung_id: parseInt(userId),
+            noi_dung: content,
+            ngay_binh_luan: new Date().getTime(),
+        }
+        const data = await prisma.binh_luan.create({
+            data: newComment,
+        });
+
+        responseApi(res, 200, data, "Successful");
+    } catch(err) {
+        responseApi(res, 500, err, "Failed");
     }
 }
