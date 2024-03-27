@@ -69,6 +69,18 @@ export const handleGetUser = async (req, res) => {
             where: {
                 nguoi_dung_id: userId,
             },
+            include: {
+                hinh_anh: {
+                    where: {
+                        nguoi_dung_id: userId,
+                    },
+                },
+                luu_anh: {
+                    where: {
+                        nguoi_dung_id: userId,
+                    },
+                },
+            },
         });
         const userWithoutPassword = exclude(data, ['mat_khau'])
 
