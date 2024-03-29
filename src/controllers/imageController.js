@@ -125,7 +125,7 @@ export const handleCommentOnImage = async (req, res) => {
             hinh_id: parseInt(imgId),
             nguoi_dung_id: parseInt(userId),
             noi_dung: content,
-            ngay_binh_luan: new Date().getTime(),
+            ngay_binh_luan: new Date(),
         }
         const data = await prisma.binh_luan.create({
             data: newComment,
