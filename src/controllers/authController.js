@@ -112,7 +112,7 @@ export const handleUpdateUserInfo = async (req, res) => {
             data: newUserData,
         })
 
-        responseApi(res, 200, newUserData, "Successful");
+        responseApi(res, 200, exclude(newUserData, ['mat_khau']), "Successful");
     } catch (err) {
         responseApi(res, 500, err, "Failed");
     }

@@ -136,3 +136,54 @@ export const handleCommentOnImage = async (req, res) => {
         responseApi(res, 500, err, "Failed");
     }
 }
+
+export const handleDeleteImage = async (req, res) => {
+    try {
+        const { imgId } = req.query;
+        const { userId } = decodeToken(req.headers.token);
+
+        const image = await prisma.hinh_anh.findUnique({
+            where: {
+                hinh_id: parseInt(imgId),
+            },
+        })
+
+        if (!image) {
+            responseApi(res, 500, "There is no image", "Failed");
+            return;
+        }
+
+        if (image.nguoi_dung_id !== userId) {
+            responseApi(res, 401, "Do not have permission to delete image", "Denied");
+        }
+
+        const deleteComments = prisma.binh_luan.deleteMany({
+            where: {
+                hinh_id: image.hinh_id,
+            },
+        })
+
+        const deleteSaved = prisma.luu_anh.deleteMany({
+            where: {
+                hinh_id: image.hinh_id,
+            },
+        })
+
+        const deleteImage = prisma.hinh_anh.delete({
+            where: {
+                hinh_id: image.hinh_id,
+            },
+        })
+
+        const transaction = await prisma.$transaction([deleteComments, deleteSaved, deleteImage]);
+
+        if (transaction[2]) {
+            fs.rmSync(`public/img/${transaction[2].duong_dan}`);
+        }
+
+        responseApi(res, 200, transaction, "Successful");
+    } catch (err) {
+        console.log(err);
+        responseApi(res, 500, err, "Failed");
+    }
+}
