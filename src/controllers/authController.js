@@ -86,7 +86,34 @@ export const handleGetUser = async (req, res) => {
 
         responseApi(res, 200, userWithoutPassword, "Successful");
     } catch (err) {
-        console.log(err);
+        responseApi(res, 500, err, "Failed");
+    }
+}
+
+export const handleUpdateUserInfo = async (req, res) => {
+    try {
+        const { userId } = decodeToken(req.headers.token);
+
+        const currentUserData = await prisma.nguoi_dung.findUnique({
+            where: {
+                nguoi_dung_id: userId,
+            },
+        });
+
+        const newUserData = {
+            ...currentUserData,
+            ...req.body,
+        }
+        
+        await prisma.nguoi_dung.update({
+            where: {
+                nguoi_dung_id: currentUserData.nguoi_dung_id,
+            },
+            data: newUserData,
+        })
+
+        responseApi(res, 200, newUserData, "Successful");
+    } catch (err) {
         responseApi(res, 500, err, "Failed");
     }
 }
