@@ -1,6 +1,6 @@
 {
   "name": "insta-clone",
-  "packageManager": "yarn@3.5.0",
+  "packageManager": "yarn@4.1.1",
   "type": "module",
   "scripts": {
     "start": "node ./src/index.js",
