@@ -1,0 +1,381 @@
+{
+	"info": {
+		"_postman_id": "65c93dcb-8c53-4c7d-a135-7f1c3edd4d8f",
+		"name": "insta_clone",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18220820",
+		"_collection_link": "https://zenonian.postman.co/workspace/General~926a8d92-23ee-4e51-98dc-fc24941e13ef/collection/18220820-65c93dcb-8c53-4c7d-a135-7f1c3edd4d8f?action=share&source=collection_link&creator=18220820"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "sign-up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"c@example.com\",\n    \"password\": \"123\",\n    \"fullName\": \"Nguyen Van C\",\n    \"age\": 25\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/auth/sign-up",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"auth",
+								"sign-up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"b@example.com\",\n    \"password\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/auth/login",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxMTY4NDI0MH0.1SPNJStGrHbzC584m2XzkfapNg8PDqBI2LmzF8pJ0z8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/auth/get-user",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"auth",
+								"get-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-user-info",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxMTU0NjQ3OX0.NGhIpvy-Fs_t68BxQuRtkyEAnovMhqrozdJegCoxYEQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tuoi\": 26\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/auth/update-user-info",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"auth",
+								"update-user-info"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "image",
+			"item": [
+				{
+					"name": "get-images",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/image/get-images",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"image",
+								"get-images"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search-images-by-name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/image/search-images-by-name?imgName=img",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"image",
+								"search-images-by-name"
+							],
+							"query": [
+								{
+									"key": "imgName",
+									"value": "img"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-image-detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/image/get-image-detail?imgId=1",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"image",
+								"get-image-detail"
+							],
+							"query": [
+								{
+									"key": "imgId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upload-image",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxMTY4NDI0MH0.1SPNJStGrHbzC584m2XzkfapNg8PDqBI2LmzF8pJ0z8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/fme849/Desktop/nature_200.jpeg"
+								},
+								{
+									"key": "description",
+									"value": "This is a nature image",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/image/upload-image",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"image",
+								"upload-image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check-saved-image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/image/check-saved-image?imgId=1&userId=2",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"image",
+								"check-saved-image"
+							],
+							"query": [
+								{
+									"key": "imgId",
+									"value": "1"
+								},
+								{
+									"key": "userId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-comment-by-image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/image/get-comment-by-image?imgId=1",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"image",
+								"get-comment-by-image"
+							],
+							"query": [
+								{
+									"key": "imgId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "comment-on-image",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxMTY4NDI0MH0.1SPNJStGrHbzC584m2XzkfapNg8PDqBI2LmzF8pJ0z8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"imgId\": 1,\n    \"content\": \"Wow! This image is amazing!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/image/comment-on-image",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"image",
+								"comment-on-image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-image",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxMTY4NDI0MH0.1SPNJStGrHbzC584m2XzkfapNg8PDqBI2LmzF8pJ0z8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/image/delete-image?imgId=4",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"image",
+								"delete-image"
+							],
+							"query": [
+								{
+									"key": "imgId",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base-url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
